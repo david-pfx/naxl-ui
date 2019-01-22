@@ -1,9 +1,5 @@
-// Evolutility-UI-React :: /utils/load-models.js
 
 // load models from server at start-up
-
-// https://github.com/evoluteur/evolutility-ui-react
-// (c) 2018 Datid Bennett
 
 import { prepModel } from '../utils/dico'
 import dataLayer from '../utils/data-layer'

@@ -1,9 +1,9 @@
 // Evolutility-UI-React :: /views/many.js
 
-// Mixin used in most Views for Many (List, Cards but not Charts).
+// Super-class for most Views for Many (List, Cards but not Charts).
 
 // https://github.com/evoluteur/evolutility-ui-react
-// (c) 2018 Olivier Giulieri
+// (c) 2019 Olivier Giulieri
 
 import React from 'react'
 
@@ -34,8 +34,8 @@ export default class Many extends React.Component {
 			e = entity || params.entity,
 			query = query1 ? query1 : url.parse(this.props.location.search), //this.props.location.query,
 			paramsCollec = this.props.paramsCollec
- 
-   		if(query.order){
+
+		if(query && query.order){
 			const orderParams = query.order.split('.')
 			this._sortField = orderParams[0]
 			this._sortDirection = orderParams[1]

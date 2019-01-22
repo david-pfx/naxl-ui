@@ -3,14 +3,12 @@
 module.exports = {
 
 	// - Path to REST API
+	// - apiPath is prefixed w/ "proxy" from package.json
 	apiPath: '/api/v1/',
 	apiPathDico: '/api/v1/',
-	// apiPath: 'http://localhost:2000/api/v1/',
-	// apiPathDico: 'http://localhost:2000/api/v1/',
 
 	// - Path to uploaded files
 	filesUrl: '/pix/',
-	//filesUrl: 'http://localhost:3000/pix/',
 
 	// - Pagination
 	pageSize: 50,

@@ -56,13 +56,15 @@ export default class List extends Many {
 	render() {
 		const props = this.props,
 			isNested = props.isNested,
-			e = (isNested) ? props.paramsCollec.entity : props.match.params.entity,
+			paramsCollec = props.paramsCollec,
+			e = (isNested) ? paramsCollec.entity : props.match.params.entity,
 			m = (isNested) ? this.modelCollec : this.model
 
 		if(m) {
 			const icon = m.icon
 			const ico = icon ? <img className="evol-many-icon" src={'/pix/'+icon} alt=""/> : null
-			const link = `/${e}/browse/`
+			const realEntity = isNested ? paramsCollec.object || paramsCollec.entity : e
+			const link = '/'+realEntity+'/browse/'
 
 			function cell(d, f, idx){
 				const lovField = f.type===ft.lov
@@ -79,6 +81,13 @@ export default class List extends Many {
 				}else if(f.type===ft.color){
 					return <td key={idx}><div className="evo-color-box" id={f.id} 
 						style={{backgroundColor: value}} title={value}/></td>
+				}else if(lovField && f.lovicon){
+					return (
+						<td key={idx}>
+							<img src={'/pix/'+d[f.id+'_icon']} className="lovIcon" alt=""/>
+							{format.fieldValue(f, value, true)}
+						</td>
+					)
 				}
 				return <td key={idx}>{format.fieldValue(f, value, true)}</td>
 			}
