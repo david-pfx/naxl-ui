@@ -59,7 +59,7 @@ export default class List extends Many {
 			e = (isNested) ? props.paramsCollec.entity : props.match.params.entity,
 			m = (isNested) ? this.modelCollec : this.model
 
-		if(m || isNested){
+		if(m) {
 			const icon = m.icon
 			const ico = icon ? <img className="evol-many-icon" src={'/pix/'+icon} alt=""/> : null
 			const link = `/${e}/browse/`
@@ -122,8 +122,7 @@ export default class List extends Many {
 						location={this.props.location}
 					/>
 				}else{
-					// TODO: get model of nested obj
-					if(this.props.isNested){
+					if(isNested){
 						body = <div className="nodata-list2">No data.</div>
 					}else{
 						body = <Alert title="No data" message={i18n_msg.nodata.replace('{0}', m.namePlural)} type="info" />
@@ -133,10 +132,10 @@ export default class List extends Many {
 
 			return (
 				<div data-entity={e} style={{width: '100%'}}>
-					{isNested ? null : (
-						<Header entity={e} title={title} 
-							count={full_count} cardinality='n' view={this.viewId}/>
-					)}
+					{ isNested 
+						? (props.paramsCollec.title ? <h3 className="panel-title">{this.props.title}</h3> : null)
+						: <Header entity={e} title={title} count={full_count} cardinality='n' view={this.viewId}/>
+					}
 					<div className="evolutility evol-many-list">
 						{body}
 						{footer}						
