@@ -17,7 +17,8 @@ import Browse from './components/views/one/Browse';
 import Edit from './components/views/one/Edit';
 
 import PageNotFound from './components/widgets/PageNotFound.js';
-
+import Spinner from './components/shell/Spinner.js';
+import { loadAllModels } from './models/all_models'
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -43,7 +44,18 @@ const AppRoutes = () => (
 
 
 export default class App extends React.Component {
-//<React.StrictMode></React.StrictMode>
+
+	constructor(props) {
+		super(props);
+		this.state = { }
+	}
+
+	componentWillMount() {
+		// load modeels from server
+		// all AppRoutes and children access models directly so defer mounting
+		loadAllModels(done => this.setState({ isDone: done }))
+	}
+
 	render() {
 		return (
 			<BrowserRouter>
@@ -51,7 +63,10 @@ export default class App extends React.Component {
 					<TopBar />
 					<Nav />
 					<div className="pageContent" role="main">
-						<AppRoutes/>
+						{ this.state.isDone
+							? <AppRoutes />
+							: <Spinner />
+						}
 					</div>
 					<ToastContainer autoClose={5000} />
 					<Footer />

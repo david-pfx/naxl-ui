@@ -17,4 +17,7 @@ Desktop.ini
 
 # WebStorm stuff
 .idea
+
+# more stuff
 /package-lock.json
+/public/pix/test

@@ -9,10 +9,25 @@ function logall(...args) {
     console.log(...args)
 }
 
-let models = {}
+let callBacks = [],
+    isDone = false,
+    models = {}
 
-// load and prepare all models
-function loadAllModels(cb) {
+// simplifies compatibility
+export { models as default }
+
+// add a callback to the list to be called when done
+export function watchModels(cb) {
+    cb(isDone)
+    if (cb && !callBacks.includes(cb))
+        callBacks.push(cb)
+}
+
+// load and prepare all models, notify any registered callbacks
+export function loadAllModels(cb) {
+    isDone = false
+    watchModels(cb)
+
     dataLayer.getMany('table')
     .then(response => {
         let newmod = {}
@@ -20,15 +35,13 @@ function loadAllModels(cb) {
             m.id = m.entity
             newmod[m.id] = prepModel(m) 
         })
-        //logall('models', newmod)	
         models = newmod
-        if (cb) cb()
+        isDone = true
+        callBacks.map(cb => cb(isDone))
     })
     .catch(err => {
         logall('error', err)	
+        isDone = true
+        callBacks.map(cb => cb(isDone))
     })
-    
-    
 }
-
-export { models as default, loadAllModels }

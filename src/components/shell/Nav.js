@@ -1,17 +1,17 @@
 import React from 'react';
 import { i18n_nav } from '../../i18n/i18n';
 import NavSection from './NavSection.js';
-import { loadAllModels } from '../../models/all_models'
+import { watchModels } from '../../models/all_models'
 import AppMenus from '../../AppMenus.js';
 
 import './Nav.scss';
 
 // url = http://localhost:2000/api/v1/object?object?active=eq.true
 
-export default class Nav extends React.PureComponent {
-	componentDidMount() {
-		// load modeels from server
-		loadAllModels(() => this.setState({}))
+export default class Nav extends React.Component {
+
+    componentWillMount() {
+        watchModels(done => this.setState({}))
 	}
 
     render() {
