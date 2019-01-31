@@ -46,7 +46,7 @@ export default class Many extends React.Component {
 		let qs = url.querySearch(query)
 		let promise = (paramsCollec) ? dataLayer.getCollec(e, paramsCollec.id, id) 
 			: (qs) ? dataLayer.getQuery(e, qs) 
-			: dataLayer.getMany(e)
+			: dataLayer.getMany(e, { pageSize: pageSize })
 	   	promise 
 			.then(response => {
 				//var a = response.headers

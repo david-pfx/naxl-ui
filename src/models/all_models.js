@@ -28,7 +28,7 @@ export function loadAllModels(cb) {
     isDone = false
     watchModels(cb)
 
-    dataLayer.getMany('table')
+    dataLayer.getMany('table', { join: 'all' })
     .then(response => {
         let newmod = {}
         response.data.forEach(m => { 

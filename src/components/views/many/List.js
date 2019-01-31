@@ -3,10 +3,10 @@
 // List view to display a collection as a list (table w/ sorting and paging).
 
 // https://github.com/evoluteur/evolutility-ui-react
-// (c) 2018 Olivier Giulieri
+// (c) 2019 Olivier Giulieri
 
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import {i18n_msg} from '../../../i18n/i18n'
@@ -24,7 +24,7 @@ import Pagination from '../../widgets/Pagination'
 
 import './List.scss' 
 
-const sliceData = data => data.length > pageSize ? data.slice(0, pageSize) : data
+const sliceData = data => data.length > pageSize ? data.slice(0, pageSize) : (data || [])
 
 export default class List extends Many {
 
@@ -108,6 +108,7 @@ export default class List extends Many {
 				if(data.length){
 					let fields = m.fields.filter(isFieldMany)
 					if (isNested) fields = fields.filter(f => f.entity !== props.match.params.entity)
+					let newItem = (isNested && paramsCollec.object) ? <div className="list-new"><Link to={'/'+realEntity+'/edit/0'}><i className="glyphicon glyphicon-plus"/> New</Link></div> : null
 					body = (
 						<div>
 							<table className={css}>
@@ -124,12 +125,15 @@ export default class List extends Many {
 							</table>
 						</div>
 					)
-					footer = <Pagination 
-						count={data.length} 
-						fullCount={fullCount} 
-						fnClick={this.clickPagination} 
-						location={this.props.location}
-					/>
+					footer = <React.Fragment>
+								<Pagination 
+									count={data.length} 
+									fullCount={fullCount} 
+									fnClick={this.clickPagination} 
+									location={this.props.location}
+								/>
+								{newItem}
+							</React.Fragment> 
 				}else{
 					if(isNested){
 						body = <div className="nodata-list2">No data.</div>

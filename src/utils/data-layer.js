@@ -23,9 +23,12 @@ export default {
     },
 
     // get an array of items
-    getMany: function(entity) {
-        logall('getMany', entity)
-        return axios.get(apiPath + entity + '?pageSize=' + pageSize)
+    getMany: function(entity, options) {
+        logall('getMany', entity, options)
+        let tail = options ? '?' + Object.entries(options).map(([k,v]) => `${k}=${v}`).join('&')
+            : ''
+        //logall('getMany', entity, opts, tail)
+        return axios.get(apiPath + entity + tail)
     },
 
     // get a collection of sub-items (details for master)
