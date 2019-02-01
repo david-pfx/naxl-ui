@@ -22,6 +22,12 @@ export default {
         return axios.get(apiPath + entity + '/' + id)
     },
 
+    // get the models
+    getModels: function() {
+        logall('getModels')
+        return axios.get(apiPath + 'models')
+    },
+
     // get an array of items
     getMany: function(entity, options) {
         logall('getMany', entity, options)
