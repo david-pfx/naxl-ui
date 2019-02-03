@@ -24,35 +24,13 @@ export function watchModels(cb) {
 }
 
 // load and prepare all models, notify any registered callbacks
-export function loadAllModels(cb) {
-    isDone = false
-    watchModels(cb)
-
-    dataLayer.getModels()
-    .then(response => {
-        models = response.data[0]
-        isDone = true
-        callBacks.map(cb => cb(isDone))
-    })
-    .catch(err => {
-        logall('error', err)	
-        isDone = true
-        callBacks.map(cb => cb(isDone))
-    })
-}
-
-//export function loadAllModels(cb) {
+// export function loadAllModels(cb) {
 //     isDone = false
 //     watchModels(cb)
 
-//     dataLayer.getMany('table', { join: 'all' })
+//     dataLayer.getModels()
 //     .then(response => {
-//         let newmod = {}
-//         response.data.forEach(m => { 
-//             m.id = m.entity
-//             newmod[m.id] = prepModel(m) 
-//         })
-//         models = newmod
+//         models = response.data[0]
 //         isDone = true
 //         callBacks.map(cb => cb(isDone))
 //     })
@@ -62,3 +40,26 @@ export function loadAllModels(cb) {
 //         callBacks.map(cb => cb(isDone))
 //     })
 // }
+
+export function loadAllModels(cb) {
+    isDone = false
+    watchModels(cb)
+
+    dataLayer.getMany('table', { join: 'all' })
+    .then(response => {
+        let newmod = {}
+        response.data.forEach(m => { 
+            m.id = m.ident
+            m.fields.map(f => f.id = f.ident )
+            newmod[m.id] = prepModel(m) 
+        })
+        models = newmod
+        isDone = true
+        callBacks.map(cb => cb(isDone))
+    })
+    .catch(err => {
+        logall('error', err)	
+        isDone = true
+        callBacks.map(cb => cb(isDone))
+    })
+}

@@ -108,7 +108,7 @@ export default class List extends Many {
 				if(data.length){
 					let fields = m.fields.filter(isFieldMany)
 					if (isNested) fields = fields.filter(f => f.entity !== props.match.params.entity)
-					let newItem = (isNested && paramsCollec.object) ? <div className="list-new"><Link to={'/'+realEntity+'/edit/0'}><i className="glyphicon glyphicon-plus"/> New</Link></div> : null
+					let newItem = (isNested && realEntity) ? <div className="list-new"><Link to={'/'+realEntity+'/edit/0'}><i className="glyphicon glyphicon-plus"/> New</Link></div> : null
 					body = (
 						<div>
 							<table className={css}>
