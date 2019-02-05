@@ -6,9 +6,16 @@
 // (c) 2018 Olivier Giulieri
 
 import React from 'react'
+import numeral from 'numeral'
 import moment from 'moment'
+
+// include locale support for a few chosen countries -- add more as needed
+import 'moment/locale/en-gb'
 import 'moment/locale/en-au'
 import 'moment/locale/fr'
+import 'moment/locale/de'
+import 'moment/locale/es'
+
 import {filesUrl, locale } from '../config.js'
 import { fieldTypes as ft } from '../utils/dico'
 
@@ -22,15 +29,15 @@ const formatLib = {
     now: () => moment(),
 
     fieldValue(f, d, abbr){
-        if(f.type==='boolean'){
+        if(f.type===ft.bool){
             return d ? <i className="glyphicon glyphicon-ok"></i> : ''
-        }else if(f.type==='date'){
+        }else if(f.type===ft.date){
             return this.dateString(d)
-        }else if(f.type==='time'){
+        }else if(f.type===ft.time){
             return this.timeString(d)
-        }else if(f.type==='datetime'){
+        }else if(f.type===ft.datetime){
             return this.datetimeString(d)
-        }else if(f.type==='color'){
+        }else if(f.type===ft.color){
             return (
                 <div>
                     <div className="evo-color-box" id={f.id} 
@@ -39,17 +46,19 @@ const formatLib = {
                     </div>
                 </div>
             )
-        }else if(f.type==='image' && d){
+        }else if(f.type===ft.image && d){
             return this.image(filesUrl+d)
-        }else if(f.type==='url' && d){
+        }else if(f.type===ft.url && d){
             return <a href={d} target="_blank" rel="noopener noreferrer">{d}</a>
-        }else if(f.type==='email' && d){
+        }else if(f.type===ft.email && d){
             return <a href={'mailto:'+d}>{d}</a>
-        }else if(f.type==='json' && d){
+        }else if(f.type===ft.json && d){
             return this.jsonString(d)
-        // }else if(f.type==='content' && d){  // server will send number of rows
-        //     return `${d} ${d === 1 ? 'row' : 'rows'}`
-        }/*else if(f.type==='lov' && icon){
+        }else if(f.type===ft.dec && d){
+            return this.decimalString(d)
+        }else if(f.type===ft.money && d){
+            return this.moneyString(d)
+        }/*else if(f.type===ft.lov && icon){
             return <React.Fragment><img src={icon} alt=""></img>{d}</React.Fragment>
         }*/
         return d
@@ -86,6 +95,14 @@ const formatLib = {
     
     datetimeString(d){
         return d ? moment(d).format('L LTS') : ''
+    },
+
+    decimalString(d){
+        return d ? numeral(d).format() : ''
+    },
+
+    moneyString(d){
+        return d ? numeral(d).format('$0,0.00') : ''
     },
 
     jsonString(js){
