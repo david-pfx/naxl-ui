@@ -6,8 +6,9 @@
 // (c) 2019 Olivier Giulieri
 
 import React from 'react'
+import { toast } from 'react-toastify'
 
-import {i18n_msg} from '../../../i18n/i18n.js'
+import { i18n_msg, i18n_actions } from '../../../i18n/i18n.js'
 import dataLayer from '../../../utils/data-layer.js'
 import { pageSize } from '../../../config.js'
 import url from '../../../utils/url'
@@ -26,6 +27,7 @@ export default class Many extends React.Component {
 		}
 		this.clickPagination = this.clickPagination.bind(this);
 		this.clickSort = this.clickSort.bind(this);
+		this.clickImport = this.clickImport.bind(this);
 	}
 
 	getData(entity, query1){
@@ -189,6 +191,41 @@ export default class Many extends React.Component {
 		this.props.history.push('/'+e+'/'+this.viewId+'?'+url.querySearch(query))
 		//TODO: scroll to top
 		//ReactDOM.findDOMNode(this).scrollTop = 0
+	}
+
+	// bulk import from props jsonSource
+	clickImport(evt){
+		console.log(this.props)
+		const e = this.props.paramsCollec.entity,
+			source = this.props.jsonSource,
+			parentid = +this.props.match.params.id,
+			childcol = this.props.paramsCollec.column,
+			v = { valid: true } // TODO: this.validate(fields, this.state.data)
+
+		if (!v.valid) {
+			toast.error('Records failed local validation.')
+		} else {
+			let data = source.map(s => ({ ...s, [childcol]: parentid }))
+			this.insertMany(e, data)
+		}
+	}
+
+	// Add a set of records
+	insertMany(entity, data){
+		console.log('insertMany', entity, data.length)
+
+		if (data.length === 0) {
+			toast.info(i18n_msg.noUpdate)
+		} else {
+			dataLayer.addOne(entity, data)
+				.then(response => {
+					toast.success(i18n_actions.added.replace('{0}', models[entity].namePlural))
+				})
+				.catch(error => {
+					toast.error('Server error while inserting or updating the records.')
+					console.log(error);
+				});
+		}
 	}
 
 }

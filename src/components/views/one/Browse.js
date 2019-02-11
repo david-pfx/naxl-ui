@@ -102,12 +102,14 @@ export default class Browse extends OneRead {
 
                       {m.collections ? (
                         m.collections.map((c, idx)=>{
+                          let j = data[c.id] // could check whether this is json, here or later?
                           return (
                             <Panel title={c.title} key={'collec_'+c.id}>
                               <List key={'collec'+idx}
                                 isNested={true}
                                 match={this.props.match} 
                                 paramsCollec={c}
+                                jsonSource={j}
                                 style={{width:'100%'}}
                                 location={this.props.location}
                               />

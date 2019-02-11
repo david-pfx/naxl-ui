@@ -105,10 +105,20 @@ export default class List extends Many {
 			}else if(this.state.loading){
 				body = <Spinner></Spinner> 
 			}else{
+				let newItem = (isNested && realEntity) ? (
+					<div className="list-new">
+						<Link to={'/'+realEntity+'/edit/0'}><i className="glyphicon glyphicon-plus"/> New </Link>
+						{ // Add a button to bulk import collection rows from a json source that matches by name
+							(props.jsonSource) ? (
+								<button className="btn btn-primary" onClick={this.clickImport}>
+									<i className="glyphicon glyphicon-import"></i>{ `Import from '${paramsCollec.id}'` }
+								</button>						
+							) : null 
+						}
+					</div>) : null
 				if(data.length){
 					let fields = m.fields.filter(isFieldMany)
 					if (isNested) fields = fields.filter(f => f.entity !== props.match.params.entity)
-					let newItem = (isNested && realEntity) ? <div className="list-new"><Link to={'/'+realEntity+'/edit/0'}><i className="glyphicon glyphicon-plus"/> New</Link></div> : null
 					body = (
 						<div>
 							<table className={css}>
@@ -137,6 +147,7 @@ export default class List extends Many {
 				}else{
 					if(isNested){
 						body = <div className="nodata-list2">No data.</div>
+						footer = newItem
 					}else{
 						body = <Alert title="No data" message={i18n_msg.nodata.replace('{0}', m.namePlural)} type="info" />
 					}

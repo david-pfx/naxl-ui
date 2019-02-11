@@ -42,7 +42,7 @@ module.exports = {
         //selection: 'Selection',
         //selections: 'Selections',
         export1: 'Export',
-        //import: 'Import',
+        import: 'Import',
         //massUpdate: 'Mass Update',
         delete1: 'Delete',
         //bAll: 'All',

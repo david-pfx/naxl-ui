@@ -21,9 +21,7 @@ import Datepicker from 'react-datepicker'
 // - image & documents
 import Dropzone from 'react-dropzone'
 
-
 import './field.scss'
-
 
 function emHeight(f){
 	let fh = parseInt(f.height || 2, 10);
