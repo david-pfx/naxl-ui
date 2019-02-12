@@ -121,6 +121,8 @@ export default class Many extends React.Component {
 							.replace('{2}', totalSize)
 							.replace('{3}', this.model.namePlural);
 					}
+				}else{
+					return totalSize + ' ' + this.model.namePlural;
 				}
 			}	
 		}

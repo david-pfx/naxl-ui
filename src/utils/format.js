@@ -17,7 +17,7 @@ import 'moment/locale/de'
 import 'moment/locale/es'
 
 import {filesUrl, locale } from '../config.js'
-import { fieldTypes as ft } from '../utils/dico'
+import {fieldTypes as ft} from './dico.js'
 
 moment.locale(locale || window.navigator.userLanguage || window.navigator.language)
 
@@ -85,6 +85,14 @@ const formatLib = {
     },
 
     // --- date formats ---
+    dateOpt(d, type){ 
+        if(type==='time'){
+            return this.timeString(d)
+        }else if(type==='datetime'){
+            return this.dateString(d)
+        }
+        return this.dateString(d);
+    },
     dateString(d){ 
         return d ? moment(d).format('L') : ''
     },
