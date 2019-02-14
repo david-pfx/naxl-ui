@@ -114,7 +114,7 @@ export default class Field extends React.Component {
 					value={ d ? d : '' }
 					className="form-control"
 				/>
-		}else if(f.type===ft.image || f.type===ft.doc || f.type == ft.content){
+		}else if(f.type===ft.image || f.type===ft.doc || f.type===ft.content){
 			let pix = null
 
 			if(d){
