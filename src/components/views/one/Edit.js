@@ -44,7 +44,9 @@ export default class Edit extends OneReadWrite{
 			v = this.validate(fields, this.state.data)
 
 		if(v.valid){
-			this.upsertOne()
+			this.upsertOne(this.props.match.params.entity, id => {
+				window.location = `/${this.props.match.params.entity}/browse/${id}`
+			})
 		}else{
 			this.setState({
 				invalid: !v.valid

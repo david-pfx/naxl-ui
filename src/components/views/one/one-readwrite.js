@@ -24,7 +24,7 @@ import { fieldTypes as ft } from '../../../utils/dico'
 
 export default class OneReadWrite extends OneRead{
 
-	upsertOne(entity){
+	upsertOne(entity, cb){
 		const e = entity || this.props.match.params.entity,
 			m = models[e],
 			id = parseInt(this.props.match.params.id || '', 10),
@@ -48,6 +48,7 @@ export default class OneReadWrite extends OneRead{
 						data: response.data,
 						invalid: false
 					})
+					return cb(id || response.data.id)
 				})
 				.catch(error => {
 					if(error.response &&error.response.data &&  error.response.data.invalids){
