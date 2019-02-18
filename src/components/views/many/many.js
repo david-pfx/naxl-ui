@@ -208,12 +208,14 @@ export default class Many extends React.Component {
 			toast.error('Records failed local validation.')
 		} else {
 			let data = source.map(s => ({ ...s, [childcol]: parentid }))
-			this.insertMany(e, data)
+			this.insertMany(e, data, data => {
+				window.location = `/${this.props.match.params.entity}/browse/${this.props.match.params.id}`
+			})
 		}
 	}
 
 	// Add a set of records
-	insertMany(entity, data){
+	insertMany(entity, data, cb){
 		console.log('insertMany', entity, data.length)
 
 		if (data.length === 0) {
@@ -222,6 +224,7 @@ export default class Many extends React.Component {
 			dataLayer.addOne(entity, data)
 				.then(response => {
 					toast.success(i18n_actions.added.replace('{0}', models[entity].namePlural))
+					if (cb) cb(response.body)
 				})
 				.catch(error => {
 					toast.error('Server error while inserting or updating the records.')
