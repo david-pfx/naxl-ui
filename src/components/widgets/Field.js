@@ -196,9 +196,9 @@ export default class Field extends React.Component {
 		// - return the formatted field value
 		let fw
 
-		if(f.type==='textmultiline'){
+		if(f.type===ft.textml){
 			const height = emHeight(f)+'em'
-			return <div key={f.id} className="disabled evo-rdonly" style={{height:height}}
+			return <div key={f.id} className="disabled evo-rdonly scroll-y" style={{height:height}}
 					dangerouslySetInnerHTML={createMarkup(d)}
 				/> 
 		}else if(f.type===ft.image && d){
@@ -312,8 +312,8 @@ export default class Field extends React.Component {
 Field.propTypes = {
 	model: PropTypes.object.isRequired,
 	callbacks: PropTypes.shape({
-		change: PropTypes.function,
-		dropFile: PropTypes.function
+		change: PropTypes.func,
+		dropFile: PropTypes.func
 	}),
 	data: PropTypes.any,  // object or atomic values depending on field type
 	value: PropTypes.any, // field value

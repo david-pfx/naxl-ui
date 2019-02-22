@@ -64,7 +64,7 @@ export default class List extends Many {
 			const icon = m.icon
 			const ico = icon ? <img className="evol-many-icon" src={'/pix/'+icon} alt=""/> : null
 			const realEntity = isNested ? paramsCollec.object || paramsCollec.entity : e
-			const link = '/'+realEntity+'/browse/'
+			const link = '/'+realEntity+'/'+m.defaultViewOne+'/'
 
 			function cell(d, f, idx){
 				const lovField = f.type===ft.lov
@@ -78,14 +78,18 @@ export default class List extends Many {
 							</Link>
 							{d.nb_comments?(' '+d.nb_comments+' comments'):null}
 						</td>
+				}else if(f.type===ft.image){
+					return <td key={idx}><Link to={link+d.id}>{format.fieldValue(f, value, true)}</Link></td>
 				}else if(f.type===ft.color){
 					return <td key={idx}><div className="evo-color-box" id={f.id} 
 						style={{backgroundColor: value}} title={value}/></td>
 				}else if(lovField && f.lovicon){
 					return (
 						<td key={idx}>
-							<img src={'/pix/'+d[f.id+'_icon']} className="lovIcon" alt=""/>
-							{format.fieldValue(f, value, true)}
+							<div className="nobr">
+								<img src={'/pix/'+d[f.id+'_icon']} className="lovIcon" alt=""/>
+								{format.fieldValue(f, value, true)}
+							</div>
 						</td>
 					)
 				}

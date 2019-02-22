@@ -19,11 +19,12 @@ import 'moment/locale/es'
 import {filesUrl, locale } from '../config.js'
 import {fieldTypes as ft} from './dico.js'
 
+// Set the locale from the browser -- which may need to be configured
 moment.locale(locale || window.navigator.userLanguage || window.navigator.language)
 
 const formatLib = {
 
-    // config to ovoerride browser
+    // config to override browser
     locale: moment.locale(),
 
     now: () => moment(),
@@ -86,9 +87,9 @@ const formatLib = {
 
     // --- date formats ---
     dateOpt(d, type){ 
-        if(type==='time'){
+        if(type===ft.time){
             return this.timeString(d)
-        }else if(type==='datetime'){
+        }else if(type===ft.datetime){
             return this.dateString(d)
         }
         return this.dateString(d);
@@ -106,7 +107,7 @@ const formatLib = {
     },
 
     decimalString(d){
-        return d ? numeral(d).format() : ''
+        return d ? numeral(d).format() : '' // TODO: choose format
     },
 
     moneyString(d){
@@ -118,6 +119,18 @@ const formatLib = {
             return JSON.stringify(js, null, '\t');
         }
         return '';
+    },
+
+    urlJoin(u1, u2){
+        const slashu2 = u2[0]==='/'
+        const slashu1 = u1[u1.length-1]==='/'
+        if(slashu2 && slashu1){
+            return u1 + u2.substring(1)
+        }else if(!slashu2 && !slashu1){
+            return u1 + '/' + u2
+        }else{
+            return u1 + u2
+        }
     },
 
     capitalize: function(word){ // TODO: maybe use _.string.capitalize(word);

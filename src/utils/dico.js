@@ -94,17 +94,23 @@ function getFields(model) {
 
 export function prepModel(m){
 	if(m){
-		if(!m.fields){
-			m.fields = getFields(m);
-		}
-		if(!m.fieldsH){
-			m.fieldsH = hById(m.fields);
-		}
-		if(!m.label){
-			m.label = m.title || m.namePlural || m.name;
-		}
-		if(!m.titleField){
-			m.titleField = m.fields[0];
+		if(!m.prepared){
+			// - Model
+			m.defaultViewOne = m.defaultViewOne || 'browse'
+			if(!m.label){
+				m.label = m.title || m.namePlural || m.name;
+			}
+			// - Fields
+			if(!m.fields){
+				m.fields = getFields(m);
+			}
+			if(!m.fieldsH){
+				m.fieldsH = hById(m.fields);
+			}
+			if(!m.titleField){
+				m.titleField = m.fields[0];
+			}
+			m.prepared = true
 		}
 		return m;
 	}
