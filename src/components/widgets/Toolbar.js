@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import Format from '../../utils/format'
 import evoGlobals from '../../utils/evoGlobals'
 import dataLayer from '../../utils/data-layer.js'
+import {apiPath} from '../../config.js'
 import {proxy} from '../../../package.json'
 //import {i18n_actions, i18n_msg} from '../../i18n/i18n'
 import { i18n_msg, i18n_actions } from '../../i18n/i18n'

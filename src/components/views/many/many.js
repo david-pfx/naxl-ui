@@ -141,7 +141,7 @@ export default class Many extends React.Component {
 		this.model = models[e]
 		// model to be used by collection (child) panel
 		if (this.props.paramsCollec)
-			this.modelCollec = models[this.props.paramsCollec.entity]
+			this.modelCollec = models[this.props.paramsCollec.object]
 	}
 
 	clickSort(evt){
@@ -198,7 +198,7 @@ export default class Many extends React.Component {
 	// bulk import from props jsonSource
 	clickImport(evt){
 		console.log(this.props)
-		const e = this.props.paramsCollec.entity,
+		const e = this.props.paramsCollec.object,
 			source = this.props.jsonSource,
 			parentid = +this.props.match.params.id,
 			childcol = this.props.paramsCollec.column,

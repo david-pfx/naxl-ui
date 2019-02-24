@@ -57,13 +57,14 @@ export default class List extends Many {
 		const props = this.props,
 			isNested = props.isNested,
 			paramsCollec = props.paramsCollec,
-			e = (isNested) ? paramsCollec.entity : props.match.params.entity,
+			e = (isNested) ? paramsCollec.object : props.match.params.entity,
 			m = (isNested) ? this.modelCollec : this.model
 
+		console.log('List:', paramsCollec, e, m)
 		if(m) {
 			const icon = m.icon
 			const ico = icon ? <img className="evol-many-icon" src={'/pix/'+icon} alt=""/> : null
-			const realEntity = isNested ? paramsCollec.object || paramsCollec.entity : e
+			const realEntity = isNested ? paramsCollec.object || paramsCollec.object : e
 			const link = '/'+realEntity+'/'+m.defaultViewOne+'/'
 
 			function cell(d, f, idx){
